@@ -10,10 +10,9 @@ KrishiSetu is a digital marketplace designed to eliminate middlemen by directly 
 Discover  ──►  Compare  ──►  Negotiate  ──►  Purchase  ──►  Pickup
 ```
 
-> 🚨 **Team Collaboration Rules:** All contributors must read and strictly follow the [Git & GitHub Rules](TEAM_RULES.md) before pushing/pulling code.
+> 🚨 **Team Collaboration Rules:** All contributors MUST read and strictly follow the mandatory [Team Git & GitHub Rules](TEAM_RULES.md) before pulling or pushing code!
 
 ---
-
 
 ## 📌 Problem Statement
 
@@ -91,105 +90,46 @@ KrishiSetu equips buyers and farmers with a **Smart Price Indicator** that dynam
 
 ---
 
-## 🔄 Workflows
+## 🏗️ Full-Stack Architecture & Directory Structure
 
-### 🛒 Order Workflow (Buyer Pickup Model)
-
-```text
-┌─────────────────────────┐
-│ Buy Now / Accepted Offer│
-└────────────┬────────────┘
-             │
-             ▼
-┌─────────────────────────┐
-│     Order Confirmed     │
-└────────────┬────────────┘
-             │
-             ▼
-┌─────────────────────────┐
-│ Buyer Arranges Transport│
-└────────────┬────────────┘
-             │
-             ▼
-┌─────────────────────────┐
-│  Buyer Pickup at Farm   │
-└────────────┬────────────┘
-             │
-             ▼
-┌─────────────────────────┐
-│     Order Completed     │
-└────────────┬────────────┘
-             │
-             ▼
-┌─────────────────────────┐
-│     Rating & Review     │
-└─────────────────────────┘
-```
-
-> 📌 *Note: The current MVP operates on a **Buyer Pickup Model** where transport and logistics are arranged directly by the buyer.*
-
-### 🤝 Offer Workflow (Negotiation)
+KrishiSetu is built on **Next.js 14 App Router** paired with **Supabase** (PostgreSQL, Auth, RLS, and Storage).
 
 ```text
-┌─────────────────────────┐
-│   Buyer Selects Crop    │
-└────────────┬────────────┘
-             │
-             ▼
-┌─────────────────────────┐
-│ Submits Price & Quantity│
-└────────────┬────────────┘
-             │
-             ▼
-┌─────────────────────────┐
-│  Farmer Reviews Offer   │
-└────────────┬────────────┘
-             │
-      ┌──────┴──────┐
-      ▼             ▼
-  [ Accept ]   [ Reject ]
-      │             │
-      ▼             ▼
- Order Created   Offer Ended
-```
-
----
-
-## 🏗️ System Architecture
-
-KrishiSetu is structured as a **Modular Monolith** adhering to a **Three-Layer Architecture**. All business domains are logically encapsulated into distinct modules within a single codebase to balance rapid development with clean architectural boundaries.
-
-```mermaid
-graph TD
-    subgraph Presentation Layer
-        UI["Next.js App Router (React, Tailwind CSS, shadcn/ui)"]
-    end
-
-    subgraph Business Layer / Modular Monolith
-        AUTH["Auth Module"]
-        USERS["Users Module"]
-        FARMERS["Farmers Module"]
-        BUYERS["Buyers Module"]
-        LISTINGS["Listings Module"]
-        OFFERS["Offers Module"]
-        ORDERS["Orders Module"]
-        PRICING["Pricing Module"]
-        REVIEWS["Reviews Module"]
-        VERIF["Verification Module"]
-        ADMIN["Admin Module"]
-    end
-
-    subgraph Data & Infrastructure Layer
-        SUPA_AUTH["Supabase Auth"]
-        SUPA_DB[("Supabase PostgreSQL")]
-        SUPA_STORE["Supabase Storage"]
-    end
-
-    UI --> AUTH & USERS & FARMERS & BUYERS & LISTINGS & OFFERS & ORDERS & PRICING & REVIEWS & VERIF & ADMIN
-
-    AUTH --> SUPA_AUTH
-    FARMERS & BUYERS & LISTINGS & OFFERS & ORDERS & PRICING & REVIEWS & ADMIN --> SUPA_DB
-    VERIF & LISTINGS --> SUPA_STORE
+KrishiSetu/
+├── app/                        # Next.js 14 App Router Pages & API Routes
+│   ├── (auth)/                 # Authentication & KYC Verification routes
+│   ├── (dashboard)/            # Role dashboards (Farmer, Buyer, Admin)
+│   ├── (marketplace)/          # Crop produce listings & Mandi price pages
+│   ├── api/                    # Server-side API endpoints & Webhooks
+│   ├── globals.css             # Tailwind CSS & Design tokens
+│   ├── layout.jsx              # Root Layout & Global Context Providers
+│   └── page.jsx                # High-converting Landing Page
+├── components/                 # React UI Component Library
+│   ├── common/                 # Reusable Primitives (Buttons, Badges, Modals)
+│   ├── marketplace/            # Hero, TrustBar, MarketPrices, ProductCard, CTAs
+│   ├── index.js                # Barrel re-export file
+├── lib/                        # Full-stack Utilities & Integrations
+│   ├── supabase/               # Supabase JS Clients & Handlers
+│   │   ├── client.js           # Browser Client Component Helper
+│   │   ├── server.js           # Server Component / Action Helper
+│   │   ├── admin.js            # Service Role Client for Admin tasks
+│   │   └── middleware.js       # Session Refresh Middleware
+│   ├── utils.js                # Helper functions (cn, price formatters)
+│   └── homeData.mjs            # Fallback mock data & initial state
+├── supabase/                   # Supabase Infrastructure & Database Migrations
+│   ├── migrations/             # SQL Migration Files & RLS Policies
+│   │   └── 20260815_init.sql   # Tables for Profiles, Listings, Offers, Orders, Prices
+│   └── seed.sql                # APMC Mandi price benchmarks & MSP database
+├── TEAM_RULES.md               # Mandatory Git & GitHub Rules for Team
+├── KrishiSetu_Team_Git_Rules.html # HTML version of Team Rules
+├── KrishiSetu_Architecture_Plan.html # HTML Blueprint for Word/PDF Export
+├── .env.example                # Template for environment configuration
+├── .env.local                  # Local secrets (Supabase URL & Anon Key)
+├── middleware.js               # Global Next.js Auth Session Refresh Middleware
+├── next.config.mjs             # Next.js Application Config
+├── package.json                # Project dependencies (@supabase/supabase-js, @supabase/ssr)
+├── tailwind.config.js          # Tailwind CSS Configuration
+└── README.md                   # Project Documentation
 ```
 
 ---
@@ -198,81 +138,24 @@ graph TD
 
 | Layer | Technology | Description |
 | :--- | :--- | :--- |
-| **Frontend Framework** | Next.js / React | App Router, Server Actions, Client Components |
-| **Language** | TypeScript | End-to-end static type safety |
-| **Styling & UI** | Tailwind CSS / shadcn/ui | Utility-first styling with accessible UI components |
-| **Backend Logic** | Next.js Server Actions / API Routes | Server-side business logic and route handlers |
-| **Database** | Supabase PostgreSQL | Relational database storage |
-| **Authentication** | Supabase Auth | User authentication and JWT management |
-| **Storage** | Supabase Storage | Image uploads for listings and verification documents |
-| **Data Visualization**| Recharts | Charts and dashboard analytics |
-| **Deployment** | Vercel | Application hosting and continuous deployment |
+| **Frontend Framework** | Next.js 14 / React 18 | App Router, Server Actions, Client Components |
+| **Styling & UI** | Tailwind CSS v4 / Lucide React | Utility-first styling with accessible icon set |
+| **Backend Database** | Supabase PostgreSQL | Relational database with Row Level Security (RLS) |
+| **Authentication** | Supabase Auth / SSR | Cookie-based session management and JWT authentication |
+| **Database Migrations** | Supabase CLI / SQL | Version-controlled database schema migrations |
+| **Team Workflow** | Git / GitHub | Mandatory Conventional Commits & Pull/Push protocol |
 
 ---
 
-## 🗄️ Database Schema Overview
+## 🗄️ Supabase Database Schema
 
-The underlying Supabase PostgreSQL database consists of the following primary tables:
+The underlying Supabase PostgreSQL database consists of 5 core relational tables:
 
-* `users` — Core user identity, role assignments (`farmer`, `buyer`, `admin`), and timestamps.
-* `farmer_profiles` — Extended farmer attributes (farm location, land size, verification status).
-* `buyer_profiles` — Commercial buyer details (business name, GST/license info, procurement preferences).
-* `listings` — Agricultural crop postings (crop type, quantity, asking price, location, status).
-* `offers` — Negotiation records submitted by buyers for specific listings.
-* `orders` — Binding purchase records generated via "Buy Now" or accepted offers.
-* `order_status_history` — Audit trail for order state transitions.
-* `reviews` — Post-fulfillment rating scores and feedback.
-* `market_prices` — APMC market prices and Government MSP reference data.
-* `notifications` — In-app user notifications for offer updates, verification, and order milestones.
-
-### Key Entity Relationships
-* `users` ─── *(1:1)* ───► `farmer_profiles` / `buyer_profiles`
-* `farmer_profiles` ─── *(1:N)* ───► `listings`
-* `listings` ─── *(1:N)* ───► `offers`
-* `listings` ─── *(1:N)* ───► `orders`
-* `orders` ─── *(1:1)* ───► `reviews`
-* `orders` ─── *(1:N)* ───► `order_status_history`
-
----
-
-## 📁 Project Structure
-
-```text
-krishisetu/
-├── public/                # Static public assets
-├── src/
-│   ├── app/               # Next.js App Router pages and layouts
-│   ├── components/        # Shared UI components (shadcn/ui, layout)
-│   ├── config/            # Application configuration and constants
-│   ├── lib/               # Utility functions, Supabase clients, helpers
-│   ├── modules/           # Domain-driven feature modules
-│   │   ├── admin/         # Admin verification and moderation
-│   │   ├── auth/          # Authentication flows and guards
-│   │   ├── buyers/        # Buyer profiles and workflows
-│   │   ├── farmers/       # Farmer profiles and listings management
-│   │   ├── listings/      # Crop discovery, filtering, detail views
-│   │   ├── offers/        # Price negotiation handling
-│   │   ├── orders/        # Order creation and status tracking
-│   │   ├── pricing/       # APMC/MSP reference price calculation
-│   │   ├── reviews/       # Rating and review processing
-│   │   ├── users/         # Core user management
-│   │   └── verification/  # Document verification engine
-│   └── types/             # TypeScript type definitions and DB models
-├── supabase/              # Supabase migrations and seed scripts
-├── .env.example           # Environment template file
-├── package.json           # Node project configuration and dependencies
-└── tsconfig.json          # TypeScript configuration
-```
-
----
-
-## 🔒 Security Measures
-
-* **Authentication:** Managed securely via Supabase Auth using JWT sessions.
-* **Role-Based Access Control (RBAC):** Strict policy checks ensuring Farmers, Buyers, and Admins can only perform permitted operations.
-* **Row-Level Security (RLS):** Enabled on PostgreSQL tables so users can only view or mutate authorized data.
-* **Server-Side Validation:** All inputs validated via Server Actions / API routes before executing database operations.
-* **Secret Protection:** Sensitive keys maintained strictly in server-side environment variables.
+* `profiles` — User profile information, role assignments (`farmer`, `buyer`, `admin`), and verification status (`verified`, `pending`).
+* `listings` — Crop produce listings (crop type, quantity, asking price, APMC rate ref, harvest date, location).
+* `offers` — Price negotiations submitted by buyers (`offered_price`, `offered_quantity`, `status`).
+* `orders` — Confirmed purchase transactions (`status`: `pending`, `confirmed`, `picked_up`, `completed`).
+* `market_prices` — APMC mandi reference prices and Government Minimum Support Prices (MSP).
 
 ---
 
@@ -280,107 +163,64 @@ krishisetu/
 
 ### Prerequisites
 
-* **Node.js** (v18.0.0 or higher recommended)
+* **Node.js** (v18.0.0 or higher)
 * **npm** (v9.0.0 or higher)
-* A **Supabase** project instance (for Auth, Database, and Storage)
+* A **Supabase** project instance
 
-### Installation
+### Local Setup
 
 1. **Clone the repository:**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/RishabhDev676/krishisetu.git
    cd krishisetu
    ```
 
-2. **Install dependencies:**
+2. **Pull latest changes:**
    ```bash
-   npm install
+   git pull origin main
    ```
 
-3. **Configure Environment Variables:**
-   Create a `.env.local` file in the root of the `krishisetu` directory by copying `.env.example`:
+3. **Install dependencies:**
    ```bash
-   cp .env.example .env.local
+   cmd /c "npm install"
    ```
-   Add your Supabase credentials:
+
+4. **Configure Environment Variables:**
+   Create `.env.local` by copying `.env.example`:
    ```env
-   NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+   NEXT_PUBLIC_SUPABASE_URL=https://your-project-ref.supabase.co
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
+   SUPABASE_SERVICE_ROLE_KEY=your-service-role-key-here
    ```
 
-4. **Run the Development Server:**
+5. **Run the Development Server:**
    ```bash
    npm run dev
    ```
-
-5. **Access the application:**
-   Open [http://localhost:3000](http://localhost:3000) in your web browser.
+   Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
 
-## ☁️ Deployment
+## 🚨 Team Collaboration Protocol
 
-KrishiSetu is designed for seamless deployment on **Vercel** connected to **Supabase**:
+Before making any changes, all developers must review [TEAM_RULES.md](TEAM_RULES.md).
 
-```text
-GitHub Repository ──► Vercel (Next.js Application) ──► Supabase (Auth, DB, Storage)
+```bash
+# 1. Start of work session
+git pull origin main
+
+# 2. Work & test locally
+
+# 3. Stage & commit with Conventional Commit message
+git add .
+git commit -m "feat: add crop search filter"
+
+# 4. End of work session
+git push origin main
 ```
-
----
-
-## 📊 Current MVP Scope (15-Day College Project)
-
-The current working implementation includes:
-
-* [x] Farmer Registration & Profile Setup
-* [x] Buyer Registration & Profile Setup
-* [x] Admin Profile & Verification Workflow
-* [x] Crop Listing Creation & Management
-* [x] Marketplace Search & Filtering
-* [x] APMC / MSP Reference Price Benchmarking
-* [x] Buy Now Direct Ordering
-* [x] Make Offer Price Negotiation System
-* [x] Order Status Management & Pickup Tracking
-* [x] Post-Order Ratings & Review System
-
----
-
-## 🚀 Future Scope (Post-MVP Roadmap)
-
-> ⚠️ *The following features are planned for future iterations and are **NOT part of the current 15-day MVP**:*
-
-* **Integrated Online Payments:** Escalation to UPI / Payment Gateways with Escrow mechanism.
-* **Third-Party Logistics Integration:** Automated transport booking and vehicle matching.
-* **AI Price Prediction Engine:** Machine learning models forecasting seasonal APMC price trends.
-* **AI Crop Recommendation:** Agronomic advisories based on soil and climate data.
-* **Multilingual Voice Assistant:** Voice-enabled accessibility for regional rural farmers.
-* **Weather & Advisory Alerts:** Hyperlocal weather integration.
-* **Contract Farming Modules:** Pre-harvest agreement frameworks.
-
----
-
-## 📐 Development Philosophy
-
-**Simple to Build Now • Modular by Design • Scalable for the Future**
-
-KrishiSetu intentionally adopts a **Modular Monolith** architecture instead of microservices. For a 15-day MVP, a modular monolith minimizes deployment complexity, avoids distributed system overhead, and ensures rapid iteration while maintaining strict module encapsulation. This allows future microservice extraction if scale demands it.
-
----
-
-## 👥 Team
-
-- **Name** — Role
-- **Name** — Role
-- **Name** — Role
 
 ---
 
 ## 🎓 Academic Context
 
-KrishiSetu was developed as a 15-day **BSc Computer Science Final Year Project** focusing on applying web architecture, relational database design, and domain-driven modular patterns to solve real-world agricultural supply chain problems.
-
----
-
-## 📄 License
-
-License information will be added when finalized by the project team.
+KrishiSetu was developed as a **BSc Computer Science Final Year Project** focusing on full-stack web architecture, relational database design, and direct digital procurement in agricultural supply chains.
