@@ -10,7 +10,10 @@ KrishiSetu is a digital marketplace designed to eliminate middlemen by directly 
 Discover  ──►  Compare  ──►  Negotiate  ──►  Purchase  ──►  Pickup
 ```
 
+> 🚨 **Team Collaboration Rules:** All contributors must read and strictly follow the [Git & GitHub Rules](TEAM_RULES.md) before pushing/pulling code.
+
 ---
+
 
 ## 📌 Problem Statement
 

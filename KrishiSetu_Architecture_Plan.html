@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KrishiSetu - Architecture & Technical Implementation Plan</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+    
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+      color: #1e293b;
+      background-color: #f8fafc;
+      margin: 0;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 50px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      border: 1px solid #e2e8f0;
+    }
+
+    .header {
+      border-bottom: 2px solid #064e3b;
+      padding-bottom: 20px;
+      margin-bottom: 30px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-radius: 20px;
+      background-color: #ecfdf5;
+      color: #047857;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      color: #064e3b;
+      font-size: 28px;
+      font-weight: 700;
+      margin: 5px 0 10px 0;
+    }
+
+    .subtitle {
+      color: #64748b;
+      font-size: 15px;
+      margin: 0;
+    }
+
+    h2 {
+      color: #064e3b;
+      font-size: 20px;
+      font-weight: 600;
+      margin-top: 35px;
+      border-bottom: 1px solid #cbd5e1;
+      padding-bottom: 8px;
+    }
+
+    h3 {
+      color: #0f766e;
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 25px;
+    }
+
+    p, li {
+      font-size: 14px;
+      color: #334155;
+    }
+
+    ul, ol {
+      padding-left: 24px;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    .alert {
+      padding: 16px 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+      font-size: 14px;
+    }
+
+    .alert-important {
+      background-color: #fff7ed;
+      border-left: 4px solid #f97316;
+      color: #9a3412;
+    }
+
+    .alert-note {
+      background-color: #eff6ff;
+      border-left: 4px solid #3b82f6;
+      color: #1e40af;
+    }
+
+    pre {
+      background-color: #0f172a;
+      color: #f8fafc;
+      padding: 18px;
+      border-radius: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      overflow-x: auto;
+      line-height: 1.5;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      background-color: #f1f5f9;
+      color: #0f766e;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 14px;
+    }
+
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 10px 14px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f1f5f9;
+      color: #0f172a;
+      font-weight: 600;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+
+    .footer {
+      margin-top: 50px;
+      padding-top: 20px;
+      border-top: 1px solid #e2e8f0;
+      text-align: center;
+      font-size: 12px;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <span class="badge">Architecture & Implementation Blueprint</span>
+      <h1>KrishiSetu 🌾 — Project Blueprint & Technical Plan</h1>
+      <p class="subtitle">Consolidating Frontend & Supabase Backend Architecture in Next.js 14 App Router</p>
+    </div>
+
+    <div class="alert alert-important">
+      <strong>Single Source of Truth:</strong> The main project repository is consolidated at 
+      <code>d:\RISHABH\##RUIA BSC CS\SY\Projects\FP\KrishiSetu</code>. Git remote tracking 
+      (<code>https://github.com/RishabhDev676/krishisetu.git</code>) is attached directly to the main root level.
+    </div>
+
+    <h2>1. Executive Overview</h2>
+    <p>
+      KrishiSetu is an agricultural procurement marketplace designed to connect small/medium-scale farmers directly with verified commercial buyers. This technical blueprint establishes a unified full-stack architecture combining <strong>Next.js 14 (App Router)</strong> for high-performance React rendering with <strong>Supabase</strong> for authentication, relational database storage, and real-time marketplace updates.
+    </p>
+
+    <h2>2. Unified Directory & File Architecture</h2>
+    <p>Below is the standardized enterprise folder structure for KrishiSetu:</p>
+
+    <pre>
+KrishiSetu/
+├── app/                        # Next.js 14 App Router (Pages & API Routes)
+│   ├── (auth)/                 # Login, Registration & KYC Verification routes
+│   ├── (dashboard)/            # Role-based dashboards (Farmer, Buyer, Admin)
+│   ├── (marketplace)/          # Produce catalog, listing details, Mandi prices
+│   ├── api/                    # Server-side API endpoints & Supabase Webhooks
+│   ├── globals.css             # Global CSS & Tailwind styling
+│   ├── layout.jsx              # Root Layout & Global Context Providers
+│   └── page.jsx                # High-converting Landing Page
+├── components/                 # React UI Component Library
+│   ├── common/                 # Reusable UI Primitives (Buttons, Badges, Modals, Cards)
+│   ├── layout/                 # Navbar, Footer, Navigation Drawer
+│   ├── marketplace/            # Hero, TrustBar, MarketPrices, ProduceListings
+│   ├── dashboard/              # Data tables, Status Indicators, Analytics Widgets
+│   └── forms/                  # Listing, Offer Negotiation, and Auth Forms
+├── lib/                        # Full-stack Utilities & Services
+│   ├── supabase/               # Supabase JS Clients & Handlers
+│   │   ├── client.js           # Browser Client Component Helper
+│   │   ├── server.js           # Server Component / Action Helper
+│   │   ├── admin.js            # Service Role Client for Admin tasks
+│   │   └── middleware.js       # Session Refresh Middleware
+│   ├── utils.js                # Helper functions (cn, formatCurrency, formatDate)
+│   └── homeData.mjs            # Fallback mock data & initial state
+├── supabase/                   # Supabase Infrastructure & Database Migration
+│   ├── migrations/             # SQL Migration Files & RLS Policies
+│   │   └── 20260815_init.sql   # Tables for Profiles, Listings, Offers, Orders, Market Prices
+│   └── seed.sql                # APMC Mandi price benchmarks & MSP database
+├── .env.example                # Template for environment configuration
+├── .env.local                  # Local secrets (Supabase URL & Anon Key)
+├── next.config.mjs             # Next.js Application Config
+├── package.json                # Project dependencies
+├── tailwind.config.js          # Tailwind CSS Theme & Styling Config
+└── README.md                   # Project Documentation & API Guide
+</pre>
+
+    <h2>3. Supabase Relational Database Schema</h2>
+    <p>The marketplace backend relies on 5 primary relational tables with strict Row Level Security (RLS):</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Table Name</th>
+          <th>Primary Key / Foreign Keys</th>
+          <th>Description & Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>profiles</code></td>
+          <td><code>id</code> (FK → auth.users)</td>
+          <td>User profile information, roles (<code>farmer</code>, <code>buyer</code>, <code>admin</code>), and verification status (<code>verified</code>, summary: <code>pending</code>).</td>
+        </tr>
+        <tr>
+          <td><code>listings</code></td>
+          <td><code>id</code>, <code>farmer_id</code> (FK → profiles.id)</td>
+          <td>Crop produce listings including category, quantity (kg/quintal), asking price, APMC rate reference, and harvest date.</td>
+        </tr>
+        <tr>
+          <td><code>offers</code></td>
+          <td><code>id</code>, <code>listing_id</code>, <code>buyer_id</code></td>
+          <td>Price negotiations submitted by buyers (offered unit price, quantity, status: <code>pending</code>, <code>accepted</code>, <code>rejected</code>).</td>
+        </tr>
+        <tr>
+          <td><code>orders</code></td>
+          <td><code>id</code>, <code>listing_id</code>, <code>buyer_id</code>, <code>farmer_id</code></td>
+          <td>Confirmed purchase transactions tracking order lifecycle (<code>pending</code>, <code>confirmed</code>, <code>picked_up</code>, <code>completed</code>).</td>
+        </tr>
+        <tr>
+          <td><code>market_prices</code></td>
+          <td><code>id</code></td>
+          <td>APMC mandi reference prices and Government Minimum Support Prices (MSP) for smart price indicators.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>4. Implementation Milestones</h2>
+    <ol>
+      <li><strong>Directory Consolidation:</strong> Clean up nested subfolders and establish main root <code>KrishiSetu</code>.</li>
+      <li><strong>Git Repository Setup:</strong> Attach remote repository <code>https://github.com/RishabhDev676/krishisetu.git</code> at the main root.</li>
+      <li><strong>Supabase Integration:</strong> Install <code>@supabase/supabase-js</code> and <code>@supabase/ssr</code>, setup client helpers in <code>lib/supabase/</code>.</li>
+      <li><strong>Database Migrations:</strong> Generate SQL schema for tables, indexes, and Row Level Security policies.</li>
+      <li><strong>Component Reorganization:</strong> Restructure components into <code>common/</code>, <code>marketplace/</code>, and <code>layout/</code> subdirectories.</li>
+      <li><strong>Build Verification:</strong> Execute build and dev server verification checks.</li>
+    </ol>
+
+    <div class="footer">
+      <p>© 2026 KrishiSetu Project Team | Generated for MS Word / PDF Conversion</p>
+    </div>
+  </div>
+
+</body>
+</html>
