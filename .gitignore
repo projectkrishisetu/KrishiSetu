@@ -21,6 +21,12 @@ yarn-error.log*
 back-end email.txt
 *.txt
 
+# non-code docs & PDF/Word/HTML plan exports
+*.docx
+*.pdf
+*.html
+old/
+
 # vercel
 .vercel
 
