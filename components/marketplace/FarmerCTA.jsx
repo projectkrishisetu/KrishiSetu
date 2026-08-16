@@ -20,7 +20,7 @@ export default function FarmerCTA() {
           </div>
           <div className="rounded-[1.75rem] overflow-hidden bg-slate-100">
             <img
-              src="https://images.unsplash.com/photo-1516637090014-cb1ab78511f5?auto=format&fit=crop&w=900&q=80"
+              src="/icons/wheat_crop.png"
               alt="Farmer with produce ready to list and sell"
               className="h-full w-full object-cover"
             />

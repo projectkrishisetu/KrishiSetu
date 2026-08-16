@@ -1,62 +1,49 @@
-import { ArrowRight, ShieldCheck } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 export default function Hero() {
   return (
-    <section id="home" className="relative overflow-hidden bg-[#f3f6ed] py-16 sm:py-20 lg:py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-          <div className="max-w-2xl">
-            {/* <div className="inline-flex items-center gap-2 rounded-full border border-emerald-950/10 bg-white/90 px-4 py-2 text-sm font-medium text-emerald-950 shadow-sm shadow-emerald-950/5">
-              <ShieldCheck className="h-4 w-4 text-emerald-950" />
-              Verified Farmers • Transparent Prices • Direct Pickup
-            </div> */}
-            <h1 className="mt-8 text-4xl font-bold tracking-tight text-emerald-950 sm:text-5xl lg:text-6xl">
-              From Farm to Buyer,
-              <span className="block text-amber-700">Without the Uncertainty.</span>
-            </h1>
-            <p className="mt-6 max-w-xl text-lg leading-8 text-slate-700 sm:text-xl">
-              KrishiSetu helps farmers find verified buyers and helps buyers source fresh produce directly from farms.
-            </p>
-            <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
-              <a
-                href="#produce"
-                className="inline-flex items-center justify-center rounded-full bg-emerald-950 px-6 py-3 text-base font-semibold text-amber-100 shadow-lg shadow-emerald-950/15 hover:bg-emerald-900"
-              >
-                Explore Produce
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </a>
-              <a
-                href="#farmer"
-                className="inline-flex items-center justify-center rounded-full border border-emerald-900/15 bg-white px-6 py-3 text-base font-semibold text-emerald-950 shadow-sm shadow-slate-900/5 hover:bg-slate-100"
-              >
-                Sell Your Produce
-              </a>
-            </div>
-            <div className="mt-12 grid gap-4 sm:grid-cols-3">
-              <div className="rounded-3xl border border-emerald-950/5 bg-white/90 p-4 shadow-sm shadow-emerald-950/5">
-                <p className="text-sm font-semibold text-emerald-950">Farmer Asking Price</p>
-                <p className="mt-2 text-2xl font-semibold text-slate-900">Clear and direct</p>
-              </div>
-              <div className="rounded-3xl border border-emerald-950/5 bg-white/90 p-4 shadow-sm shadow-emerald-950/5">
-                <p className="text-sm font-semibold text-emerald-950">APMC Reference Price</p>
-                <p className="mt-2 text-2xl font-semibold text-slate-900">Market-informed context</p>
-              </div>
-              <div className="rounded-3xl border border-emerald-950/5 bg-white/90 p-4 shadow-sm shadow-emerald-950/5">
-                <p className="text-sm font-semibold text-emerald-950">Buyer Pickup</p>
-                <p className="mt-2 text-2xl font-semibold text-slate-900">Straightforward process</p>
-              </div>
-            </div>
-          </div>
+    <section id="home" className="relative overflow-hidden bg-[#f3f6ed]">
+      <div className="relative mx-auto max-w-[1600px] px-4 py-12 sm:px-6 lg:px-10 lg:py-16">
+        <div className="relative overflow-hidden rounded-[2rem] border border-white/40 bg-[#eef6ea] shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
+          <img
+            src="/icons/farmer_with_laptop.jpg"
+            alt="Farmer using laptop"
+            className="h-[620px] w-full object-cover object-center md:h-[700px] lg:h-[760px]"
+          />
 
-          <div className="relative">
-            <div className="pointer-events-none absolute -left-12 top-12 h-32 w-32 rounded-full bg-emerald-200/70 blur-3xl" />
-            <div className="pointer-events-none absolute -right-12 bottom-12 h-40 w-40 rounded-full bg-amber-200/80 blur-3xl" />
-            <div className="overflow-hidden rounded-[2rem] border border-slate-200/80 bg-white shadow-xl shadow-slate-900/5">
-              <img
-                src="https://images.unsplash.com/photo-1504450755720-7f13b7be2b82?auto=format&fit=crop&w=1200&q=80"
-                alt="Farmer and buyer talking in a fresh green field"
-                className="h-full w-full object-cover"
-              />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.45),rgba(255,255,255,0.18)_38%,rgba(19,54,26,0.12))]" />
+
+          <div className="absolute inset-0 flex items-center px-4 sm:px-8 lg:px-12">
+            <div className="grid w-full items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
+              <div className="max-w-[700px]">
+                <h1 className="text-3xl font-black leading-[0.95] tracking-[-0.06em] text-[#1b120d] sm:text-6xl lg:text-[6.3rem]">
+                  From Farm to Buyer,
+                  <span className="mt-2 block text-[#f48a3b]">Without the</span>
+                  <span className="mt-2 block text-[#1b120d]">Uncertainty.</span>
+                </h1>
+
+                <p className="mt-6 max-w-[620px] text-base leading-8 text-[#1e293b] sm:text-xl">
+                  KrishiSetu helps farmers find verified buyers and helps buyers source fresh produce directly from farms.
+                </p>
+
+                <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
+                  <a
+                    href="#produce"
+                    className="inline-flex items-center justify-center rounded-full bg-[#112b1c] px-6 py-3 text-base font-semibold text-[#fef7e6] shadow-lg shadow-emerald-950/15 transition hover:bg-[#0d2016]"
+                  >
+                    Explore Produce
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </a>
+                  <a
+                    href="#farmer"
+                    className="inline-flex items-center justify-center rounded-full border border-[#1a2d24]/10 bg-white/75 px-6 py-3 text-base font-semibold text-[#1b120d] shadow-sm shadow-slate-900/5 backdrop-blur-sm transition hover:bg-white"
+                  >
+                    Sell Your Produce
+                  </a>
+                </div>
+              </div>
+
+              <div className="hidden lg:block" aria-hidden="true" />
             </div>
           </div>
         </div>

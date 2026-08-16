@@ -20,7 +20,7 @@ export default function BuyerCTA() {
           </div>
           <div className="rounded-[1.75rem] overflow-hidden bg-slate-100">
             <img
-              src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=900&q=80"
+              src="/icons/fresh_produce.png"
               alt="Buyers and farmers assessing produce in a farm market"
               className="h-full w-full object-cover"
             />
