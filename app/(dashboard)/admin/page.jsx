@@ -35,10 +35,10 @@ export default function AdminDashboardPage() {
           .from("profiles")
           .select("role, verification_status");
 
-        // Fetch listings metrics
+        // Fetch produce metrics (Updated table name from 'listings' to 'produce')
         const { data: listings, error: listingErr } = await supabase
-          .from("listings")
-          .select("price, quantity, status");
+          .from("produce")
+          .select("asking_price, quantity, status");
 
         if (profileErr || listingErr) {
           setDbStatus("error");
@@ -50,8 +50,11 @@ export default function AdminDashboardPage() {
           const pending = profiles?.filter((p) => p.verification_status === "pending").length || 0;
           const active = listings?.filter((l) => l.status === "active" || !l.status).length || 0;
 
-          // Calculate GMV (Price * Quantity across active listings)
-          const gmv = listings?.reduce((sum, item) => sum + (Number(item.price || 0) * Number(item.quantity || 0)), 0) || 0;
+          // Calculate GMV (asking_price * quantity across active listings)
+          const gmv = listings?.reduce(
+            (sum, item) => sum + (Number(item.asking_price || 0) * Number(item.quantity || 0)), 
+            0
+          ) || 0;
 
           setMetrics({
             farmersCount: farmers,
@@ -157,7 +160,7 @@ export default function AdminDashboardPage() {
                   <p className="text-xs text-amber-700">{metrics.pendingKYC} user applications require identity verification.</p>
                 </div>
               </div>
-              <Link href="/admin/users" className="text-xs font-bold text-amber-800 hover:underline flex items-center gap-1">
+              <Link href="/admin/verification" className="text-xs font-bold text-amber-800 hover:underline flex items-center gap-1">
                 Review <ArrowRight className="w-3 h-3" />
               </Link>
             </div>
@@ -180,7 +183,7 @@ export default function AdminDashboardPage() {
         <div className="bg-white p-6 rounded-xl border shadow-sm space-y-4">
           <h2 className="text-lg font-semibold text-slate-800">Quick Navigation</h2>
           <div className="grid grid-cols-2 gap-3">
-            <Link href="/admin/users" className="p-3 bg-slate-50 hover:bg-slate-100 rounded-lg border text-sm font-medium text-slate-700 flex justify-between items-center transition">
+            <Link href="/admin/verification" className="p-3 bg-slate-50 hover:bg-slate-100 rounded-lg border text-sm font-medium text-slate-700 flex justify-between items-center transition">
               Verification Queue <ArrowRight className="w-4 h-4 text-slate-400" />
             </Link>
             <Link href="/admin/listings" className="p-3 bg-slate-50 hover:bg-slate-100 rounded-lg border text-sm font-medium text-slate-700 flex justify-between items-center transition">
