@@ -2,21 +2,22 @@
 
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase/client";
-import { Plus, PlusCircle, X } from "lucide-react";
+import { Plus, X } from "lucide-react";
 
 export default function MandiPricesPage() {
   const [prices, setPrices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Form State
+  // Form State mapped to teammate's schema
   const [formData, setFormData] = useState({
-    commodity: "",
-    apmc_mandi: "",
+    crop_name: "",
+    market_name: "",
     state: "",
     min_price: "",
     max_price: "",
     modal_price: "",
+    unit: "₹/quintal",
   });
 
   useEffect(() => {
@@ -35,17 +36,18 @@ export default function MandiPricesPage() {
     fetchPrices();
   }, []);
 
-  // Form Submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const payload = {
-        commodity: formData.commodity,
-        apmc_mandi: formData.apmc_mandi,
+        crop_name: formData.crop_name,
+        market_name: formData.market_name,
         state: formData.state,
         min_price: Number(formData.min_price),
         max_price: Number(formData.max_price),
         modal_price: Number(formData.modal_price),
+        unit: formData.unit,
+        price_date: new Date().toISOString().split("T")[0],
       };
 
       const { data, error } = await supabase.from("market_prices").insert([payload]).select();
@@ -53,7 +55,7 @@ export default function MandiPricesPage() {
       if (!error && data) {
         setPrices((prev) => [data[0], ...prev]);
         setIsModalOpen(false);
-        setFormData({ commodity: "", apmc_mandi: "", state: "", min_price: "", max_price: "", modal_price: "" });
+        setFormData({ crop_name: "", market_name: "", state: "", min_price: "", max_price: "", modal_price: "", unit: "₹/quintal" });
       } else {
         console.error("Error inserting price:", error?.message);
       }
@@ -77,7 +79,6 @@ export default function MandiPricesPage() {
         </button>
       </div>
 
-      {/* Prices Table */}
       <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
         {loading ? (
           <div className="p-8 text-center text-slate-500">Loading live market prices...</div>
@@ -87,8 +88,8 @@ export default function MandiPricesPage() {
           <table className="w-full text-left text-sm text-slate-600">
             <thead className="bg-slate-50 border-b text-slate-700 font-medium">
               <tr>
-                <th className="p-4">Commodity</th>
-                <th className="p-4">APMC Mandi</th>
+                <th className="p-4">Crop Name</th>
+                <th className="p-4">APMC Market</th>
                 <th className="p-4">State</th>
                 <th className="p-4">Min Rate (₹)</th>
                 <th className="p-4">Max Rate (₹)</th>
@@ -97,9 +98,9 @@ export default function MandiPricesPage() {
             </thead>
             <tbody className="divide-y divide-slate-100">
               {prices.map((p) => (
-                <tr key={p.id || p.commodity} className="hover:bg-slate-50">
-                  <td className="p-4 font-semibold text-slate-800">{p.commodity}</td>
-                  <td className="p-4">{p.apmc_mandi}</td>
+                <tr key={p.id || p.crop_name} className="hover:bg-slate-50">
+                  <td className="p-4 font-semibold text-slate-800">{p.crop_name}</td>
+                  <td className="p-4">{p.market_name}</td>
                   <td className="p-4">{p.state}</td>
                   <td className="p-4">₹{p.min_price}</td>
                   <td className="p-4">₹{p.max_price}</td>
@@ -111,7 +112,6 @@ export default function MandiPricesPage() {
         )}
       </div>
 
-      {/* Add Price Record Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
           <div className="bg-white rounded-xl max-w-lg w-full p-6 space-y-4 shadow-2xl">
@@ -125,24 +125,24 @@ export default function MandiPricesPage() {
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs font-semibold text-slate-600">Commodity</label>
+                  <label className="text-xs font-semibold text-slate-600">Crop Name</label>
                   <input
                     required
                     type="text"
-                    placeholder="e.g. Tomatoes"
-                    value={formData.commodity}
-                    onChange={(e) => setFormData({ ...formData, commodity: e.target.value })}
+                    placeholder="e.g. Tomato"
+                    value={formData.crop_name}
+                    onChange={(e) => setFormData({ ...formData, crop_name: e.target.value })}
                     className="w-full mt-1 p-2 border rounded-lg text-sm"
                   />
                 </div>
                 <div>
-                  <label className="text-xs font-semibold text-slate-600">APMC Mandi</label>
+                  <label className="text-xs font-semibold text-slate-600">Market Name</label>
                   <input
                     required
                     type="text"
                     placeholder="e.g. Vashi APMC"
-                    value={formData.apmc_mandi}
-                    onChange={(e) => setFormData({ ...formData, apmc_mandi: e.target.value })}
+                    value={formData.market_name}
+                    onChange={(e) => setFormData({ ...formData, market_name: e.target.value })}
                     className="w-full mt-1 p-2 border rounded-lg text-sm"
                   />
                 </div>
