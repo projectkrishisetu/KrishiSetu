@@ -34,7 +34,7 @@ export default function HomePage() {
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
-              href="#farmer"
+              href="/register"
               className="inline-flex items-center justify-center rounded-full bg-emerald-950 px-7 py-3 text-sm font-semibold text-amber-100 shadow-sm shadow-emerald-950/20 hover:bg-emerald-900"
             >
               Sell Your Produce

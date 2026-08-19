@@ -41,7 +41,7 @@ export default function Navbar() {
 
         <div className="hidden items-center gap-3 lg:flex">
           <a
-            href="#farmer"
+            href="/register"
             className="rounded-full border border-emerald-900/10 bg-white px-4 py-2 text-sm font-medium text-emerald-950 shadow-sm shadow-slate-500/5 hover:bg-slate-50"
           >
             Sell Produce
@@ -52,7 +52,7 @@ export default function Navbar() {
           >
             Buy Produce
           </a>
-          <a href="#" className="text-sm font-medium text-slate-700 hover:text-emerald-950">
+          <a href="/login" className="text-sm font-medium text-slate-700 hover:text-emerald-950">
             Sign In
           </a>
         </div>
@@ -83,7 +83,7 @@ export default function Navbar() {
           </div>
           <div className="mt-4 space-y-3">
             <a
-              href="#farmer"
+              href="/register"
               className="flex items-center justify-between rounded-2xl bg-emerald-950 px-4 py-3 text-sm font-semibold text-amber-100"
             >
               Sell Produce
@@ -97,7 +97,7 @@ export default function Navbar() {
               <ArrowRight size={16} />
             </a>
             <a
-              href="#"
+              href="/login"
               className="block rounded-2xl px-4 py-3 text-center text-sm font-medium text-slate-700 hover:bg-slate-100"
             >
               Sign In
